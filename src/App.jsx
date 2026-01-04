@@ -28,6 +28,8 @@ import {
   ChevronRight,
   ChevronLeft,
   ChevronDown,
+  ArrowUpRight,
+  BookOpen,
   Command,
   Wrench,
   Box,
@@ -35,7 +37,6 @@ import {
   Database,
   Table,
   FlaskConical,
-  BookOpen,
   Bookmark,
   BrainCircuit,
   TestTube,
@@ -81,6 +82,7 @@ import {
 } from 'lucide-react';
 
 import GioCover from './GioCover';
+import CataCover from './CataCover';
 
 const Portfolio = () => {
   const [activeFile, setActiveFile] = useState('Welcome');
@@ -125,78 +127,12 @@ const Portfolio = () => {
       {/* Main IDE Area */}
       <div className="flex-1 flex overflow-hidden">
         
-        {/* Left Sidebar (Explorer) */}
-        <div className={`${isSidebarOpen ? 'w-64' : 'w-8'} bg-[#0c0c0e] border-r border-white/5 flex flex-col transition-all duration-300 overflow-hidden shrink-0 relative`}>
-          {/* Collapsed state indicator */}
-          {!isSidebarOpen && (
-            <div className="flex flex-col h-full">
-              <button 
-                onClick={() => setSidebarOpen(true)}
-                className="p-2 hover:bg-white/10 transition-colors text-gray-400 hover:text-white border-b border-white/5"
-                title="Expand Explorer"
-              >
-                <Folder size={16} />
-              </button>
-              <div className="flex-1 flex items-center justify-center">
-                <div className="transform -rotate-90 text-xs font-bold text-gray-500 tracking-wider whitespace-nowrap">
-                  EXPLORER
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {isSidebarOpen && (
-            <>
-              <div className="p-3 text-xs font-bold text-gray-400 tracking-wider flex justify-between items-center">
-                <span>EXPLORER</span>
-                <button 
-                  onClick={() => setSidebarOpen(false)}
-                  className="p-1 hover:bg-white/5 rounded transition-colors"
-                  title="Collapse Explorer"
-                >
-                  <X size={12} />
-                </button>
-              </div>
-          
-              
-          <div className="flex-1 overflow-y-auto">
-            <div className="px-2">
-              <div className="flex items-center gap-1 text-gray-400 py-1 cursor-pointer hover:text-white">
-                <ChevronDown size={14} />
-                <Folder size={14} className="text-purple-400" />
-                <span className="text-sm font-bold">Fei's Design Portfolio</span>
-              </div>
-              
-              <div className="pl-4 mt-1 space-y-1">
-                {files.map(file => (
-                  <button
-                    key={file.name}
-                    onClick={() => setActiveFile(file.name)}
-                    draggable={file.name === 'Sales'}
-                    onDragStart={(e) => {
-                      if (file.name === 'Sales') {
-                        e.dataTransfer.setData('tableName', 'Sales');
-                        e.currentTarget.style.opacity = '0.5';
-                      }
-                    }}
-                    onDragEnd={(e) => {
-                      if (file.name === 'Sales') {
-                        e.currentTarget.style.opacity = '1';
-                      }
-                    }}
-                    className={`flex items-center gap-2 w-full px-2 py-1.5 rounded text-sm transition-colors ${activeFile === file.name ? 'bg-cyan-500/10 text-cyan-400' : 'text-gray-400 hover:bg-white/5 hover:text-white'} ${file.name === 'Sales' ? 'cursor-grab active:cursor-grabbing' : ''}`}
-                  >
-                    {file.icon}
-                    <span className="font-mono text-xs">{file.name}</span>
-                    {file.name === 'Sales' && <span className="ml-auto text-[10px] text-cyan-400/60">drag me</span>}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-            </>
-          )}
-        </div>        {/* Center Editor Area */}
+        {/* Left Sidebar (Explorer) - Hidden */}
+        {/* <div className={`${isSidebarOpen ? 'w-64' : 'w-8'} bg-[#0c0c0e] border-r border-white/5 flex flex-col transition-all duration-300 overflow-hidden shrink-0 relative`}>
+          ...
+        </div> */}
+
+        {/* Center Editor Area */}
         <div className="flex-1 flex flex-col min-w-0 bg-[#09090b] relative">
            
            {/* Tab Bar */}
@@ -238,10 +174,8 @@ const Portfolio = () => {
            </div>
 
            {/* Mobile Menu Toggles */}
-           <div className="md:hidden absolute bottom-4 left-4 right-4 flex justify-between z-50">
-              <button onClick={() => setSidebarOpen(!isSidebarOpen)} className="p-2 bg-[#1e1e1e] border border-white/10 rounded-lg text-white shadow-lg">
-                <Menu size={20} />
-              </button>
+           <div className="md:hidden absolute bottom-4 left-4 right-4 flex justify-end z-50">
+              {/* Sidebar toggle removed */}
               <button onClick={() => setChatOpen(!isChatOpen)} className="p-2 bg-cyan-600 border border-cyan-400 rounded-lg text-white shadow-lg">
                 <MessageSquare size={20} />
               </button>
@@ -249,7 +183,7 @@ const Portfolio = () => {
         </div>
 
         {/* Right Sidebar (AI Chat) */}
-        <div className={`${isChatOpen ? 'w-80 md:w-96' : 'w-8'} bg-[#0c0c0e] border-l border-white/5 flex flex-col transition-all duration-300 shrink-0 absolute md:relative right-0 h-full z-40 shadow-2xl md:shadow-none relative`}>
+        <div className={`${isChatOpen ? 'w-60 md:w-72' : 'w-8'} bg-[#0c0c0e] border-l border-white/5 flex flex-col transition-all duration-300 shrink-0 absolute md:relative right-0 h-full z-40 shadow-2xl md:shadow-none relative`}>
           {/* Collapsed state indicator */}
           {!isChatOpen && (
             <div className="flex flex-col h-full">
@@ -293,10 +227,20 @@ const Portfolio = () => {
       {/* Status Bar */}
       <div className="h-6 bg-cyan-950/20 border-t border-cyan-500/20 flex items-center justify-between px-3 text-[10px] text-cyan-400 font-mono select-none">
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1">
+          <a 
+            href="https://github.com/renfei1992-dev/portfolio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer relative group"
+          >
              <Code2 size={10} />
-             <span>fei-portfolio-2025</span>
-          </div>
+             <span>renfei1992-dev/portfolio</span>
+             
+             {/* Tooltip */}
+             <div className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded border border-gray-700 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-lg">
+               View GitHub repo
+             </div>
+          </a>
         </div>
         
         <div className="flex items-center gap-4">
@@ -313,15 +257,132 @@ const Portfolio = () => {
 
 // --- CONTENT COMPONENTS ---
 
-const ReadmeContent = ({ setActiveFile }) => (
+const Typewriter = ({ text, delay = 0, baseSpeed = 30, speedVariance = 20, className, onComplete, showCursor = true }) => {
+  const [displayText, setDisplayText] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+
+  useEffect(() => {
+    const startTimeout = setTimeout(() => {
+      setIsTyping(true);
+    }, delay);
+    return () => clearTimeout(startTimeout);
+  }, [delay]);
+
+  useEffect(() => {
+    if (!isTyping || isComplete) return;
+
+    let i = 0;
+    let timeoutId;
+
+    const typeChar = () => {
+      if (i < text.length) {
+        setDisplayText(text.slice(0, i + 1));
+        i++;
+        // Randomize speed: baseSpeed +/- variance
+        const randomSpeed = baseSpeed + (Math.random() * speedVariance * 2 - speedVariance);
+        timeoutId = setTimeout(typeChar, Math.max(10, randomSpeed));
+      } else {
+        setIsComplete(true);
+        if (onComplete) onComplete();
+      }
+    };
+
+    typeChar();
+
+    return () => clearTimeout(timeoutId);
+  }, [text, isTyping, baseSpeed, speedVariance, onComplete, isComplete]);
+
+  return (
+    <span className={className}>
+      {displayText}
+      {showCursor && !isComplete && <span className="animate-pulse text-cyan-400">|</span>}
+    </span>
+  );
+};
+
+const SmartTitle = ({ onComplete }) => {
+  const [text, setText] = useState('');
+  const [phase, setPhase] = useState(0); // 0: type "Welcome to Fei's Playground", 1: delete "Playground", 2: type "UX Portfolio"
+  
+  const prefix = "Welcome to Fei's ";
+  const firstSuffix = "Playground";
+  const secondSuffix = "UX Portfolio";
+  
+  const fullText1 = prefix + firstSuffix;
+  const fullText2 = prefix + secondSuffix;
+
+  useEffect(() => {
+    let timeout;
+    
+    const typeChar = () => {
+      const speed = 50 + Math.random() * 30; // Random typing speed
+      
+      if (phase === 0) {
+        // Typing first part
+        if (text.length < fullText1.length) {
+          setText(fullText1.slice(0, text.length + 1));
+          timeout = setTimeout(typeChar, speed);
+        } else {
+          // Finished typing first part, wait then delete
+          timeout = setTimeout(() => setPhase(1), 800);
+        }
+      } else if (phase === 1) {
+        // Deleting "Playground"
+        if (text.length > prefix.length) {
+          setText(text.slice(0, -1));
+          timeout = setTimeout(typeChar, 30); // Delete faster
+        } else {
+          // Finished deleting, start typing second part
+          setPhase(2);
+        }
+      } else if (phase === 2) {
+        // Typing "UX Portfolio"
+        if (text.length < fullText2.length) {
+          setText(fullText2.slice(0, text.length + 1));
+          timeout = setTimeout(typeChar, speed);
+        } else {
+          if (onComplete) onComplete();
+        }
+      }
+    };
+
+    timeout = setTimeout(typeChar, 100);
+    return () => clearTimeout(timeout);
+  }, [text, phase, fullText1, fullText2, prefix, onComplete]);
+
+  const isPrefix = text.startsWith(prefix);
+  const suffix = isPrefix ? text.slice(prefix.length) : "";
+
+  return (
+    <span>
+      {isPrefix ? prefix : text}
+      <span className="text-cyan-400">{suffix}</span>
+      <span className="animate-pulse text-cyan-400">|</span>
+    </span>
+  );
+};
+
+const ReadmeContent = ({ setActiveFile }) => {
+  const [titleComplete, setTitleComplete] = useState(false);
+
+  return (
   <div className="prose prose-invert prose-p:text-gray-400 prose-headings:text-gray-200 max-w-none">
     <div className="mb-8 pb-8">
-      <h1 className="text-3xl md:text-4xl font-black text-white mb-4 tracking-tight">
-        Welcome to Fei's <span className="text-cyan-400">UX Portfolio</span>
+      <h1 className="text-3xl md:text-4xl font-black text-white mb-4 tracking-tight min-h-[3rem]">
+        <SmartTitle onComplete={() => setTitleComplete(true)} />
       </h1>
-      <p className="text-xl text-gray-400 leading-relaxed mb-8">
-        Fei is a principal design manager, working on the best developer experience with AI in Microsoft Fabric.
-      </p>
+      <div className="text-xl text-gray-400 leading-relaxed mb-8 min-h-[3.5rem]">
+        {titleComplete && (
+          <Typewriter 
+            text="Fei is a principal design manager, working on the best developer experience with AI in Microsoft Fabric." 
+            baseSpeed={20}
+            speedVariance={10}
+            delay={500}
+            showCursor={true}
+          />
+        )}
+      </div>
       
       {/* Quick Stats */}
       <div className="grid md:grid-cols-2 gap-4">
@@ -405,46 +466,37 @@ const ReadmeContent = ({ setActiveFile }) => (
         </div>
       </div>
 
-
       <div 
-        className="flex items-center gap-6 p-6 rounded-xl bg-gradient-to-br from-green-900/20 to-emerald-900/20 border border-green-500/30 hover:border-green-400 transition-all cursor-pointer group hover:scale-105 transform duration-200" 
+        className="flex items-center gap-6 p-6 rounded-xl bg-gradient-to-br from-cyan-900/20 to-teal-900/20 border border-cyan-500/30 hover:border-cyan-400 transition-all cursor-pointer group hover:scale-105 transform duration-200" 
         onClick={() => setActiveFile('Catalant')}
       >
-        <div className="flex-shrink-0 w-2/3 rounded-lg overflow-hidden relative bg-gray-900">
-          <img 
-            src="/catalant.png" 
-            alt="Catalant Project"
-            className="w-full h-auto object-cover"
-            onError={(e) => {
-              // Fallback to styled placeholder if image doesn't load
-              e.target.style.display = 'none';
-              e.target.nextElementSibling.style.display = 'flex';
-            }}
-          />
-          {/* Fallback styled placeholder */}
-          <div className="hidden w-full h-40 bg-gradient-to-br from-green-800/20 to-emerald-800/20 border border-green-500/20 items-center justify-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
-              <Terminal size={40} className="text-white" />
-            </div>
+        <div className="flex-shrink-0 w-2/3 rounded-lg overflow-hidden relative bg-gray-900 cursor-default" onClick={(e) => e.stopPropagation()}>
+          <div className="w-full h-[528px] overflow-hidden relative bg-[#0c0c0e]">
+             <div className="transform scale-[0.6] origin-top-left w-[167%] h-[167%]">
+                <CataCover />
+             </div>
           </div>
-          <div className="absolute top-2 left-2 text-xs font-mono text-green-300 bg-black/70 px-2 py-1 rounded backdrop-blur-sm">
-            Marketplace Platform
+          <div className="absolute top-2 left-2 text-xs font-mono text-cyan-300 bg-black/70 px-2 py-1 rounded backdrop-blur-sm pointer-events-none">
+            Catalant Marketplace
           </div>
         </div>
         <div className="flex-1">
           <div className="mb-3">
-            <h3 className="text-lg font-bold text-white m-0">Catalant Smart Talent Marketplace</h3>
+            <h3 className="text-lg font-bold text-white m-0">Catalant: Hire Freelancers Smarter</h3>
           </div>
-          <div className="text-xs text-green-300 mb-3 font-mono">5 Years ago | Boston, USA</div>
+          <div className="text-xs text-cyan-300 mb-3 font-mono">5 Years ago | Boston, USA</div>
           <p className="text-sm text-gray-400 m-0 leading-relaxed">
             The Catalant Marketplace helps global businesses find consultants and industry experts. I led the research and design effort of the Catalant Marketplace, driving +33% in task conversion and +23% in user satisfaction.
           </p>
-          <div className="mt-4 flex items-center text-xs text-green-300 font-mono">
-            <span>Catalant</span>
+          <div className="mt-4 flex items-center text-xs text-cyan-300 font-mono">
+            <span>Catalant Marketplace</span>
             <ChevronRight size={12} className="ml-1 group-hover:translate-x-1 transition-transform" />
           </div>
         </div>
       </div>
+
+
+
     </div>
 
     {/* Divider */}
@@ -452,91 +504,89 @@ const ReadmeContent = ({ setActiveFile }) => (
 
     {/* Articles Section */}
     <div className="mb-12">
-      <h2 className="text-2xl font-bold text-white mb-6">Latest Articles & Insights</h2>
+      <div className="flex items-center gap-3 mb-8">
+        <div className="p-2 bg-cyan-500/10 rounded-lg">
+            <BookOpen size={24} className="text-cyan-400" />
+        </div>
+        <h2 className="text-2xl font-bold text-white">Latest Articles & Insights</h2>
+      </div>
+      
       <div className="grid md:grid-cols-2 gap-6">
-        <a 
-          href="https://uxplanet.org/omni-space-is-a-digital-twin-of-a-shopping-mall-7a71a752fc64?gi=d787791e7750" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="p-6 rounded-xl bg-[#131315] border border-white/5 hover:border-cyan-500/30 transition-colors cursor-pointer group"
-        >
-          <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-cyan-400 transition-colors">
-            Omni Space Is A Digital Twin of A Shopping Mall
-          </h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            Omni Space is an imaginative concept for a metaverse shopping mall, where users navigate a flexible, privacy-focused virtual environment filled with digital twins of real products.
-          </p>
-        </a>
+        {[
+            {
+                title: "Omni Space Is A Digital Twin of A Shopping Mall",
+                desc: "Omni Space is an imaginative concept for a metaverse shopping mall, where users navigate a flexible, privacy-focused virtual environment filled with digital twins of real products.",
+                link: "https://uxplanet.org/omni-space-is-a-digital-twin-of-a-shopping-mall-7a71a752fc64?gi=d787791e7750",
+                source: "UX Planet",
+                tag: "Metaverse"
+            },
+            {
+                title: "UX strategies to guide users through a complicated journey",
+                desc: "The article recommends simplifying complex user journeys by setting clear goals, streamlining tasks, and using small, engaging actions or incentives to guide users smoothly and build habits.",
+                link: "https://uxdesign.cc/ux-strategies-to-guide-users-through-a-complicated-journey-6b945b61eadd",
+                source: "UX Collective",
+                tag: "Strategy"
+            },
+            {
+                title: "Personas and Jobs to be done",
+                desc: "The article explains that both personas and Jobs-to-be-Done frameworks aim to uncover user needs by combining an understanding of user goals and pain points, emphasizing the importance of qualitative research.",
+                link: "https://uxdesign.cc/personas-jtbd-user-needs-goals-pain-points-7eaa81976f0",
+                source: "UX Collective",
+                tag: "Research"
+            },
+            {
+                title: "What my color-blindness taught me about design",
+                desc: "Living with color blindness has made the author a more empathetic designer, emphasizing the critical importance of accessibility and using multiple solutions like contrast, icons, and shapes.",
+                link: "https://uxdesign.cc/what-my-color-blindness-taught-me-about-design-d3009a93ff9c",
+                source: "UX Collective",
+                tag: "Accessibility"
+            },
+            {
+                title: "There're no wrong answers in UX User Interview, but there're wrong questions",
+                desc: "User interviews in UX are valuable for exploring users' motivations and pain points, but are not suitable for statistically valid conclusions, predicting user behavior, or determining which designs work best.",
+                link: "https://uxdesign.cc/user-interview-isnt-what-you-think-it-is-e051f339762a",
+                source: "UX Collective",
+                tag: "Research"
+            },
+            {
+                title: "Service Design in Long-term Oriented Cultures",
+                desc: "In long-term oriented cultures, building personal relationships is crucial for service design and recovery from service failures, as customers value trust and loyalty but may be more deeply affected by service mishaps.",
+                link: "https://uxdesign.cc/service-design-in-long-term-oriented-cultures-how-to-handle-oh-snap-situations-db8f6c8b7b8c",
+                source: "UX Collective",
+                tag: "Culture"
+            }
+        ].map((article, i) => (
+            <a 
+              key={i}
+              href={article.link}
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group relative p-6 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800/50 border border-white/5 hover:border-cyan-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.15)] overflow-hidden flex flex-col"
+            >
+              <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-2 group-hover:translate-x-0">
+                <ArrowUpRight className="text-cyan-400" size={20} />
+              </div>
+              
+              <div className="flex items-center gap-3 mb-4">
+                <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                    {article.tag}
+                </span>
+                <span className="text-xs text-slate-500 font-mono">{article.source}</span>
+              </div>
 
-        <a 
-          href="https://uxdesign.cc/ux-strategies-to-guide-users-through-a-complicated-journey-6b945b61eadd" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="p-6 rounded-xl bg-[#131315] border border-white/5 hover:border-cyan-500/30 transition-colors cursor-pointer group"
-        >
-          <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-cyan-400 transition-colors">
-            UX strategies to guide users through a complicated journey
-          </h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            The article recommends simplifying complex user journeys by setting clear goals, streamlining tasks, and using small, engaging actions or incentives to guide users smoothly and build habits.
-          </p>
-        </a>
+              <h3 className="text-lg font-bold text-white mb-3 group-hover:text-cyan-300 transition-colors leading-tight">
+                {article.title}
+              </h3>
+              
+              <p className="text-slate-400 text-sm leading-relaxed mb-6 line-clamp-3 group-hover:text-slate-300 transition-colors flex-1">
+                {article.desc}
+              </p>
 
-        <a 
-          href="https://uxdesign.cc/personas-jtbd-user-needs-goals-pain-points-7eaa81976f0" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="p-6 rounded-xl bg-[#131315] border border-white/5 hover:border-cyan-500/30 transition-colors cursor-pointer group"
-        >
-          <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-cyan-400 transition-colors">
-            Personas and Jobs to be done
-          </h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            The article explains that both personas and Jobs-to-be-Done frameworks aim to uncover user needs by combining an understanding of user goals and pain points, emphasizing the importance of qualitative research for creating meaningful solutions.
-          </p>
-        </a>
-
-        <a 
-          href="https://uxdesign.cc/what-my-color-blindness-taught-me-about-design-d3009a93ff9c" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="p-6 rounded-xl bg-[#131315] border border-white/5 hover:border-cyan-500/30 transition-colors cursor-pointer group"
-        >
-          <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-cyan-400 transition-colors">
-            What my color-blindness taught me about design
-          </h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            The article argues that living with color blindness has made the author a more empathetic designer, emphasizing the critical importance of accessibility, considering diverse user experiences, and using multiple solutions—like contrast, icons, and shapes—to create inclusive designs for all users.
-          </p>
-        </a>
-
-        <a 
-          href="https://uxdesign.cc/user-interview-isnt-what-you-think-it-is-e051f339762a" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="p-6 rounded-xl bg-[#131315] border border-white/5 hover:border-cyan-500/30 transition-colors cursor-pointer group"
-        >
-          <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-cyan-400 transition-colors">
-            There're no wrong answers in UX User Interview, but there're wrong questions
-          </h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            User interviews in UX are valuable for exploring users' motivations and pain points, but are not suitable for statistically valid conclusions, predicting user behavior, or determining which designs work best, because the quality of insights depends on asking open-ended, unbiased questions rather than expecting definitive answers or accurate recall from participants.
-          </p>
-        </a>
-
-        <a 
-          href="https://uxdesign.cc/service-design-in-long-term-oriented-cultures-how-to-handle-oh-snap-situations-db8f6c8b7b8c" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="p-6 rounded-xl bg-[#131315] border border-white/5 hover:border-cyan-500/30 transition-colors cursor-pointer group"
-        >
-          <h3 className="text-lg font-semibold text-white mb-3 group-hover:text-cyan-400 transition-colors">
-            Service Design in Long-term Oriented Cultures: How to Handle "Oh Snap" Situations
-          </h3>
-          <p className="text-gray-400 text-sm leading-relaxed">
-            The article explains that in long-term oriented cultures, building personal relationships is crucial for service design and recovery from service failures, as customers value trust and loyalty but may be more deeply affected by service mishaps, requiring culturally sensitive and relationship-focused solutions.
-          </p>
-        </a>
+              <div className="flex items-center text-xs font-medium text-cyan-500/70 group-hover:text-cyan-400 transition-colors mt-auto">
+                Read Article <ChevronRight size={12} className="ml-1 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </a>
+        ))}
       </div>
     </div>
 
@@ -590,7 +640,8 @@ const ReadmeContent = ({ setActiveFile }) => (
       </div>
     </div>
   </div>
-);
+  );
+};
 
 const ResearchInsights = () => {
   return (
@@ -4291,11 +4342,32 @@ display(df)`;
       // 3. Bot Response Start
       const introText = "I'll help you prepare a reliable dataset for demand and inventory analysis covering the last 3 years. Let me start by examining your current notebook to understand the context and then create a comprehensive dataset.";
       if (!isMounted) return;
+      
       setChatMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: introText, 
+        content: '', 
         tasks: [] 
       }]);
+
+      for (let i = 0; i <= introText.length; i += 3) {
+        if (!isMounted) return;
+        setChatMessages(prev => {
+          const newMsgs = [...prev];
+          const lastMsg = { ...newMsgs[newMsgs.length - 1] };
+          lastMsg.content = introText.slice(0, i);
+          newMsgs[newMsgs.length - 1] = lastMsg;
+          return newMsgs;
+        });
+        await wait(10);
+      }
+      
+      setChatMessages(prev => {
+        const newMsgs = [...prev];
+        const lastMsg = { ...newMsgs[newMsgs.length - 1] };
+        lastMsg.content = introText;
+        newMsgs[newMsgs.length - 1] = lastMsg;
+        return newMsgs;
+      });
 
       await wait(1500);
 
@@ -4392,6 +4464,27 @@ display(df)`;
       // 7. Approval Request
       const approvalText = "I've added the cells you needed. Would you like me to run them now?";
       if (!isMounted) return;
+      
+      setChatMessages(prev => {
+        const newMsgs = [...prev];
+        const lastMsg = { ...newMsgs[newMsgs.length - 1] };
+        lastMsg.finalContent = '';
+        newMsgs[newMsgs.length - 1] = lastMsg;
+        return newMsgs;
+      });
+
+      for (let i = 0; i <= approvalText.length; i += 2) {
+        if (!isMounted) return;
+        setChatMessages(prev => {
+          const newMsgs = [...prev];
+          const lastMsg = { ...newMsgs[newMsgs.length - 1] };
+          lastMsg.finalContent = approvalText.slice(0, i);
+          newMsgs[newMsgs.length - 1] = lastMsg;
+          return newMsgs;
+        });
+        await wait(10);
+      }
+
       setChatMessages(prev => {
         const newMsgs = [...prev];
         const lastMsg = { ...newMsgs[newMsgs.length - 1] };
@@ -4485,10 +4578,22 @@ display(df)`;
         { label: 'Execute Cell 1', status: 'done' },
         { label: 'Execute Cell 2', status: 'done' }
       ];
-      lastMsg.finalContent = "Execution complete. You can now see the dataframe and visualization above.";
+      lastMsg.finalContent = "";
       newMsgs[newMsgs.length - 1] = lastMsg;
       return newMsgs;
     });
+
+    const finalText = "Execution complete. You can now see the dataframe and visualization above.";
+    for (let i = 0; i <= finalText.length; i++) {
+      setChatMessages(prev => {
+        const newMsgs = [...prev];
+        const lastMsg = { ...newMsgs[newMsgs.length - 1] };
+        lastMsg.finalContent = finalText.slice(0, i);
+        newMsgs[newMsgs.length - 1] = lastMsg;
+        return newMsgs;
+      });
+      await wait(10);
+    }
     
     setIsGlobalRunning(false);
     setIsInteractive(true);
@@ -4504,10 +4609,23 @@ display(df)`;
     // Simulate delay
     await new Promise(resolve => setTimeout(resolve, 600));
     
+    const demoText = "Sorry, this is only a demo.";
     setChatMessages(prev => [...prev, { 
       role: 'assistant', 
-      content: "Sorry, this is only a demo." 
+      content: "", 
     }]);
+
+    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    for (let i = 0; i <= demoText.length; i++) {
+        setChatMessages(prev => {
+            const newMsgs = [...prev];
+            const lastMsg = { ...newMsgs[newMsgs.length - 1] };
+            lastMsg.content = demoText.slice(0, i);
+            newMsgs[newMsgs.length - 1] = lastMsg;
+            return newMsgs;
+        });
+        await wait(10);
+    }
   };
 
   const handleMouseDown = (e) => {
@@ -6280,10 +6398,22 @@ Shall I proceed?`;
         // Add new message for execution
         return [...newMsgs, {
             role: 'assistant',
-            content: "Great! I'll start building the Medallion architecture now.",
+            content: "",
             tasks: []
         }];
     });
+
+    const startText = "Great! I'll start building the Medallion architecture now.";
+    for (let i = 0; i <= startText.length; i++) {
+        setChatMessages(prev => {
+            const newMsgs = [...prev];
+            const lastMsg = { ...newMsgs[newMsgs.length - 1] };
+            lastMsg.content = startText.slice(0, i);
+            newMsgs[newMsgs.length - 1] = lastMsg;
+            return newMsgs;
+        });
+        await wait(10);
+    }
 
     await wait(1000);
 
@@ -6631,7 +6761,20 @@ Shall I proceed?`;
     }
 
     await new Promise(resolve => setTimeout(resolve, 600));
-    setChatMessages(prev => [...prev, { role: 'assistant', content: "Sorry, this is only a demo." }]);
+    const demoText = "Sorry, this is only a demo.";
+    setChatMessages(prev => [...prev, { role: 'assistant', content: "" }]);
+
+    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    for (let i = 0; i <= demoText.length; i++) {
+        setChatMessages(prev => {
+            const newMsgs = [...prev];
+            const lastMsg = { ...newMsgs[newMsgs.length - 1] };
+            lastMsg.content = demoText.slice(0, i);
+            newMsgs[newMsgs.length - 1] = lastMsg;
+            return newMsgs;
+        });
+        await wait(10);
+    }
   };
 
   const handleRunApproveLineage = (msgIndex) => {
@@ -10279,6 +10422,7 @@ const MiniCopilotLarge = ({ position, onMouseDown, inputValue, messages, isTypin
 
 
 const FabricCover = () => {
+  const [showZeroPrompt, setShowZeroPrompt] = useState(true);
   const [position, setPosition] = useState({ x: -100, y: -20 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
@@ -10296,7 +10440,7 @@ const FabricCover = () => {
   const [restartKey, setRestartKey] = useState(0);
   const [activeWindow, setActiveWindow] = useState('copilot');
 
-  const fullCode1 = `spark.sql("DROP TABLE IF EXISTS employee")
+  const fullCode1Cover = `spark.sql("DROP TABLE IF EXISTS employee")
 val df = spark.range(0, 100).select($"id".as("employee_table"))
 df.write.mode("overwrite").saveAsTable("employee")
 val res = spark.table("employee")
@@ -10318,6 +10462,7 @@ display(df)`;
       setCopilotInput('');
       setIsInteractive(false);
       setIsGlobalRunning(false);
+      setShowZeroPrompt(true);
 
       await wait(1500);
 
@@ -10335,19 +10480,41 @@ display(df)`;
       if (!isMounted) return;
       setCopilotInput('');
       setChatMessages([{ role: 'user', content: prompt }]);
+      setShowZeroPrompt(false);
 
       await wait(1000);
 
       // 3. Bot Response Start
       const introText = "I'll help you prepare a reliable dataset for demand and inventory analysis covering the last 3 years. Let me start by examining your current notebook to understand the context and then create a comprehensive dataset.";
       if (!isMounted) return;
+      
       setChatMessages(prev => [...prev, { 
         role: 'assistant', 
-        content: introText, 
+        content: '', 
         tasks: [] 
       }]);
 
-      await wait(1500);
+      for (let i = 0; i <= introText.length; i += 3) {
+        if (!isMounted) return;
+        setChatMessages(prev => {
+          const newMsgs = [...prev];
+          const lastMsg = { ...newMsgs[newMsgs.length - 1] };
+          lastMsg.content = introText.slice(0, i);
+          newMsgs[newMsgs.length - 1] = lastMsg;
+          return newMsgs;
+        });
+        await wait(10);
+      }
+      
+      setChatMessages(prev => {
+        const newMsgs = [...prev];
+        const lastMsg = { ...newMsgs[newMsgs.length - 1] };
+        lastMsg.content = introText;
+        newMsgs[newMsgs.length - 1] = lastMsg;
+        return newMsgs;
+      });
+
+      await wait(500);
 
       // 4. Task 1: Read Notebook
       if (!isMounted) return;
@@ -10380,12 +10547,13 @@ display(df)`;
       if (!isMounted) return;
       setNotebookCells(prev => prev.map(c => c.id === 1 ? { ...c, status: 'typing' } : c));
       
-      for (let i = 0; i <= fullCode1.length; i += 3) {
+      for (let i = 0; i <= fullCode1Cover.length; i += 3) {
         if (!isMounted) return;
-        setNotebookCells(prev => prev.map(c => c.id === 1 ? { ...c, code: fullCode1.slice(0, i) } : c));
+        setNotebookCells(prev => prev.map(c => c.id === 1 ? { ...c, code: fullCode1Cover.slice(0, i) } : c));
         await wait(10);
       }
-      setNotebookCells(prev => prev.map(c => c.id === 1 ? { ...c, code: fullCode1, status: 'complete' } : c));
+      // FabricCover Unique Marker
+      setNotebookCells(prev => prev.map(c => c.id === 1 ? { ...c, code: fullCode1Cover, status: 'complete' } : c));
 
       await wait(500);
       
@@ -10442,6 +10610,27 @@ display(df)`;
       // 7. Approval Request
       const approvalText = "I've added the cells you needed. Would you like me to run them now?";
       if (!isMounted) return;
+      
+      setChatMessages(prev => {
+        const newMsgs = [...prev];
+        const lastMsg = { ...newMsgs[newMsgs.length - 1] };
+        lastMsg.finalContent = '';
+        newMsgs[newMsgs.length - 1] = lastMsg;
+        return newMsgs;
+      });
+
+      for (let i = 0; i <= approvalText.length; i += 2) {
+        if (!isMounted) return;
+        setChatMessages(prev => {
+          const newMsgs = [...prev];
+          const lastMsg = { ...newMsgs[newMsgs.length - 1] };
+          lastMsg.finalContent = approvalText.slice(0, i);
+          newMsgs[newMsgs.length - 1] = lastMsg;
+          return newMsgs;
+        });
+        await wait(10);
+      }
+
       setChatMessages(prev => {
         const newMsgs = [...prev];
         const lastMsg = { ...newMsgs[newMsgs.length - 1] };
@@ -10459,7 +10648,7 @@ display(df)`;
     };
   }, [restartKey]);
 
-  const handleApprove = async (msgIndex) => {
+  const handleApproveCover = async (msgIndex) => { // FabricCover
     const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     setIsGlobalRunning(true);
 
@@ -10535,16 +10724,28 @@ display(df)`;
         { label: 'Execute Cell 1', status: 'done' },
         { label: 'Execute Cell 2', status: 'done' }
       ];
-      lastMsg.finalContent = "Execution complete. You can now see the dataframe and visualization above.";
+      lastMsg.finalContent = "";
       newMsgs[newMsgs.length - 1] = lastMsg;
       return newMsgs;
     });
+
+    const finalText = "Execution complete. You can now see the dataframe and visualization above.";
+    for (let i = 0; i <= finalText.length; i++) {
+      setChatMessages(prev => {
+        const newMsgs = [...prev];
+        const lastMsg = { ...newMsgs[newMsgs.length - 1] };
+        lastMsg.finalContent = finalText.slice(0, i);
+        newMsgs[newMsgs.length - 1] = lastMsg;
+        return newMsgs;
+      });
+      await wait(10);
+    }
     
     setIsGlobalRunning(false);
     setIsInteractive(true);
   };
 
-  const handleUserSend = async () => {
+  const handleUserSendCover = async () => {
     if (!copilotInput.trim()) return;
     
     const userText = copilotInput;
@@ -10554,10 +10755,23 @@ display(df)`;
     // Simulate delay
     await new Promise(resolve => setTimeout(resolve, 600));
     
+    const demoText = "Sorry, this is only a demo.";
     setChatMessages(prev => [...prev, { 
       role: 'assistant', 
-      content: "Sorry, this is only a demo." 
+      content: "", 
     }]);
+
+    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    for (let i = 0; i <= demoText.length; i++) {
+        setChatMessages(prev => {
+            const newMsgs = [...prev];
+            const lastMsg = { ...newMsgs[newMsgs.length - 1] };
+            lastMsg.content = demoText.slice(0, i);
+            newMsgs[newMsgs.length - 1] = lastMsg;
+            return newMsgs;
+        });
+        await wait(10);
+    }
   };
 
   const handleMouseDown = (e) => {
@@ -10827,12 +11041,13 @@ display(df)`;
         <MiniCopilotLarge 
           inputValue={copilotInput}
           messages={chatMessages}
-          onApprove={handleApprove}
+          onApprove={handleApproveCover}
           onInput={isInteractive ? setCopilotInput : undefined}
-          onSend={handleUserSend}
+          onSend={handleUserSendCover}
           zIndex={activeWindow === 'copilot' ? 20 : 10}
           width="306px"
           height="728px"
+          showZeroState={showZeroPrompt}
         />
       </div>
     </div>
